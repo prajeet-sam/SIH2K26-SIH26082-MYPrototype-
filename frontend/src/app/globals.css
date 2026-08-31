@@ -1,0 +1,101 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #f8fafc;
+  --foreground: #0f172a;
+}
+
+.dark {
+  --background: #020617;
+  --foreground: #e2e8f0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+/* Ambient background glow + subtle grain for the app shell */
+.app-canvas {
+  background:
+    radial-gradient(1100px 520px at 12% -8%, rgba(16, 185, 129, 0.10), transparent 55%),
+    radial-gradient(900px 480px at 98% 4%, rgba(56, 189, 248, 0.08), transparent 55%),
+    radial-gradient(760px 520px at 50% 120%, rgba(139, 92, 246, 0.06), transparent 60%),
+    var(--background);
+}
+
+.app-canvas::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+}
+
+/* Soft-focus rounded scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+
+/* Map station markers */
+.ac-station-marker {
+  width: auto;
+  min-width: 36px;
+  height: 28px;
+  padding: 0 8px;
+  border-radius: 14px;
+  border: 2px solid rgba(226, 232, 240, 0.9);
+  background: var(--marker-bg, #38bdf8);
+  color: #ffffff;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.55), 0 0 0 3px rgba(255, 255, 255, 0.06);
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+.ac-station-marker:hover {
+  filter: brightness(1.12);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.6), 0 0 0 3px rgba(255, 255, 255, 0.1);
+}
+.ac-popup .maplibregl-popup-content {
+  background: #0f172a;
+  color: #e2e8f0;
+  border: 1px solid #334155;
+  border-radius: 10px;
+  font-size: 12px;
+  padding: 10px 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+.ac-popup .maplibregl-popup-tip {
+  border-top-color: #334155 !important;
+  border-bottom-color: #334155 !important;
+}

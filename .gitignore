@@ -1,0 +1,46 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+.env.*
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+# --- Opencode / AI ---
+MASTER_OPENCODE_PROMPT.md
+
+# --- Node / Frontend ---
+node_modules/
+.next/
+dist/
+build/
+coverage/
+
+# --- ML artifacts ---
+ml/artifacts/
+ml/data/raw/
+ml/data/interim/
+.model-artifacts/
+*.joblib
+*.pkl
+*.pt
+*.onnx
+!ml/artifacts/.gitkeep
+
+# --- Data ---
+*.csv.gz
+data/raw/
+!data/demo/.gitkeep
+
+# --- IDE / OS ---
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# --- Docker / DB ---
+postgres-data/
+*.log

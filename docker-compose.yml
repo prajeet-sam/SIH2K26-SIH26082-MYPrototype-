@@ -1,0 +1,64 @@
+version: "3.9"
+
+x-backend-env: &backend-env
+  DATABASE_URL: postgresql+psycopg://airacast:airacast@db:5432/airacast
+  REDIS_URL: redis://redis:6379/0
+  AIRACAST_DEMO: "false"
+
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    environment:
+      POSTGRES_USER: airacast
+      POSTGRES_PASSWORD: airacast
+      POSTGRES_DB: airacast
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U airacast"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build: .
+    command: uvicorn api.main:app --host 0.0.0.0 --port 8000
+    environment: *backend-env
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    volumes:
+      - .model-artifacts:/app/.model-artifacts
+
+  worker:
+    build: .
+    command: python -m scripts.run_scheduler
+    environment: *backend-env
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - .model-artifacts:/app/.model-artifacts
+
+  frontend:
+    build:
+      context: frontend
+    environment:
+      NEXT_PUBLIC_API_BASE_URL: http://api:8000
+    depends_on:
+      - api
+    ports:
+      - "3000:3000"
+
+volumes:
+  postgres-data:
