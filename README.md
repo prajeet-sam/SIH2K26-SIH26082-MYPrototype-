@@ -2,9 +2,6 @@
 
 > Smart India Hackathon 2026 ideation repository.
 > This repo currently contains **ideation + specification artifacts** (what SIH judges evaluate).
-> The working application will be generated into this same repository by OpenCode using
-> [`MASTER_OPENCODE_PROMPT.md`](./MASTER_OPENCODE_PROMPT.md).
-
 ## One-line pitch
 
 **AiraCast** is a research-grade environmental intelligence platform that couples real-time air-quality
